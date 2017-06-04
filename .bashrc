@@ -7,6 +7,8 @@ case $- in
       *) return;;
 esac
 
+export EDITOR=/usr/local/bin/vim
+
 # don't put duplicate lines or lines starting with space in the history.
 # See bash(1) for more options
 HISTCONTROL=ignoreboth
@@ -62,7 +64,9 @@ fi
 
 # utylee's addition
 #----
-export TERM=screen-256color-italic
+#export TERM=screen-256color-italic
+#export TERM=xterm-256color-itali
+#export TERM=xterm-256color-italic
 #color_prompt=yes
 
 alias ll='ls -lhF'
@@ -136,6 +140,10 @@ if ! shopt -oq posix; then
   fi
 fi
 
-export WORKON_HOME=$HOME/.virtualenvs
-export PROJECT_HOME=$HOME/projects
-source /usr/local/bin/virtualenvwrapper.sh
+export PYENV_ROOT="$HOME/.pyenv"
+export PATH="$PYENV_ROOT/bin:$PATH"
+eval "$(pyenv init -)"
+pyenv virtualenvwrapper
+
+alias t1='source ~/.tmuxset-misc3.5'
+alias t2='source ~/.tmuxset-flask'
