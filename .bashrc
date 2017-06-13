@@ -140,10 +140,15 @@ if ! shopt -oq posix; then
   fi
 fi
 
+echo -ne   '\eP\e]12;#2AA198\a'  # Cursor       -> red
+
 export PYENV_ROOT="$HOME/.pyenv"
 export PATH="$PYENV_ROOT/bin:$PATH"
 eval "$(pyenv init -)"
-pyenv virtualenvwrapper
+pyenv virtualenvwrapper_lazy
 
+
+alias t0='source ~/.tmuxset-blog'
 alias t1='source ~/.tmuxset-misc3.5'
 alias t2='source ~/.tmuxset-flask'
+#eval "$(pyenv virtualenv-init -)"
