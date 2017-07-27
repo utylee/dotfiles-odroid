@@ -7,6 +7,7 @@ case $- in
       *) return;;
 esac
 
+export DISPLAY=:0
 export EDITOR=/usr/local/bin/vim
 
 # don't put duplicate lines or lines starting with space in the history.
@@ -147,8 +148,10 @@ export PATH="$PYENV_ROOT/bin:$PATH"
 eval "$(pyenv init -)"
 pyenv virtualenvwrapper_lazy
 
+alias vi1='vim --servername misc --remote '
+alias vi0='vim --servername blog --remote '
 
 alias t0='source ~/.tmuxset-blog'
-alias t1='source ~/.tmuxset-misc3.5'
+alias t1='source ~/.tmuxset-misc'
 alias t2='source ~/.tmuxset-flask'
 #eval "$(pyenv virtualenv-init -)"
