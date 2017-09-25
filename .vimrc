@@ -155,7 +155,7 @@ let g:airline#extensions#tabline#fnamemod = ':t'
 "endfunction
 "call airline#add_statusline_func('MyOverride')
 
-"let g:jedi#auto_initialization = 1 
+let g:jedi#auto_initialization = 0 
 "let g:jedi#squelch_py_warning = 1
 
 set noundofile
@@ -255,7 +255,10 @@ colorscheme solarized_sd_utylee
 "let g:molokai_original = 1
 
 "set air-line theme {dark, molokai, ...}
-let g:airline_theme='molokai'
+"let g:airline_theme='molokai'
+"let g:airline_theme='wombat'
+"let g:airline_theme='raven'
+let g:airline_theme='base16_codeschool'
 "let g:airline_theme='solarized'
 "let g:airline_theme='dark'
 "let g:airline_theme='tomorrow'
@@ -287,8 +290,9 @@ set fileencodings=utf-8,cp949
 "set guifont=Ubuntu\ Mono\ derivative\ Powerline:h18.3
 "set guifontwide=NanumGothicCoding:h23
 set guifont=Ubuntu\ Mono\ derivative\ Powerline:h19
+"set guifont=Menlo\ for\ Powerline:h19
 "set font=Ubuntu\ Mono\ derivative\ Powerline:h19
-set guifontwide=NanumGothicCoding:h24
+set guifontwide=나눔고딕코딩:h24
 "set guifontwide=NanumGothicCoding:h15:cDEFAULT
 "set guifontwide=Ubuntu:h15:cDEFAULT
 
