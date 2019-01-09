@@ -9,6 +9,9 @@ esac
 
 export DISPLAY=:0
 export EDITOR=/usr/local/bin/vim
+# git editor를 vim으로 바꾸는 환경변수 차원의 방법이랍니다
+export GIT_EDITOR=vim
+
 
 # don't put duplicate lines or lines starting with space in the history.
 # See bash(1) for more options
@@ -141,6 +144,16 @@ if ! shopt -oq posix; then
   fi
 fi
 
+m() {
+#echo $2 | mutt -s "$1" utylee@gmail.com -a "$3"
+echo $2 | mutt -s "$1" utylee@gmail.com
+}
+
+ma() {
+echo $2 | mutt -s "$1" utylee@gmail.com -a "$3"
+#echo $2 | mutt -s "$1" utylee@gmail.com
+}
+
 echo -ne   '\eP\e]12;#2AA198\a'  # Cursor       -> red
 
 export PYENV_ROOT="$HOME/.pyenv"
@@ -154,4 +167,5 @@ alias vi0='vim --servername blog --remote '
 alias t0='source ~/.tmuxset-blog'
 alias t1='source ~/.tmuxset-misc'
 alias t2='source ~/.tmuxset-flask'
+alias smi-sync='python ~/.virtualenvs/misc/src/smi-sync.py '
 #eval "$(pyenv virtualenv-init -)"
