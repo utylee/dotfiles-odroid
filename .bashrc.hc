@@ -7,7 +7,9 @@ case $- in
       *) return;;
 esac
 
-export DISPLAY=:0
+# :0 은 왜그런지 모르겠는데 버전이 최신이라 그런지 절대 안되고 계속 no display 뜨고..
+# sshd config에서 x11forward 부분 offset이 10부터 시작하고 xauth list로 봐도 :10 이길래 그렇게 해봤더니 되네
+export DISPLAY=:10
 export EDITOR=/usr/local/bin/vim
 # git editor를 vim으로 바꾸는 환경변수 차원의 방법이랍니다
 export GIT_EDITOR=vim
@@ -155,7 +157,7 @@ echo $2 | mutt -s "$1" utylee@gmail.com -a "$3"
 }
 
 # echo -ne   '\eP\e]12;#2AA198\a'  # Cursor       -> red
-echo -ne   '\eP\e]12;#5F5FAF\a'  # Cursor       -> red
+echo -ne   '\eP\e]12;#5F5FAF\a'  # Cursor       -> purple
 
 export PYENV_ROOT="$HOME/.pyenv"
 export PATH="$PYENV_ROOT/bin:$PATH"
