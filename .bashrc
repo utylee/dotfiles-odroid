@@ -153,6 +153,18 @@ ma() {
 echo $2 | mutt -s "$1" utylee@gmail.com -a "$3"
 #echo $2 | mutt -s "$1" utylee@gmail.com
 }
+vi0() {
+	filename=$PWD/$1
+	tmux send-keys -t vBLOG.0 ":e $filename" C-m
+	tmux select-window -t vBLOG
+	tmux select-pane -t vBLOG.0
+}
+vi1() {
+	filename=$PWD/$1
+	tmux send-keys -t vMISC.0 ":e $filename" C-m
+	tmux select-window -t vMISC
+	tmux select-pane -t vMISC.0
+}
 
 echo -ne   '\eP\e]12;#2AA198\a'  # Cursor       -> red
 
@@ -161,8 +173,8 @@ export PATH="$PYENV_ROOT/bin:$PATH"
 eval "$(pyenv init -)"
 pyenv virtualenvwrapper_lazy
 
-alias vi1='vim --servername misc --remote '
-alias vi0='vim --servername blog --remote '
+#alias vi1='vim --servername misc --remote '
+#alias vi0='vim --servername blog --remote '
 
 alias t0='source ~/.tmuxset-blog'
 alias t1='source ~/.tmuxset-misc'
