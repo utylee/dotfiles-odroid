@@ -9,7 +9,7 @@ esac
 
 # :0 은 왜그런지 모르겠는데 버전이 최신이라 그런지 절대 안되고 계속 no display 뜨고..
 # sshd config에서 x11forward 부분 offset이 10부터 시작하고 xauth list로 봐도 :10 이길래 그렇게 해봤더니 되네
-export DISPLAY=:10
+export DISPLAY=:0
 export EDITOR=/usr/local/bin/vim
 # git editor를 vim으로 바꾸는 환경변수 차원의 방법이랍니다
 export GIT_EDITOR=vim
