@@ -12,7 +12,7 @@ set timeoutlen=1000 ttimeoutlen=10
 
 " 버퍼를 저장하지 않아도 버퍼간 이동을 가능하게끔합니다
 set hidden
-   
+set tags=tags;/
 
 " bashrc 의 alias를 읽기 위한 설정입니다
 "let $BASH_ENV = "~/.bashrc"
@@ -250,13 +250,15 @@ nmap <leader>z :cd %:p:h<cr> :pwd<cr>
 
 " Use a leader instead of the actual named binding
 nmap <leader>f :CtrlPCurWD<cr>
+nmap <leader>t :CtrlPTag<cr>
 
 " Easy bindings for its various modes
 nmap <leader>b :CtrlPBuffer<cr>
-nmap <leader>t :CtrlPMRU<cr>
+nmap <leader>r :CtrlPMRU<cr>
 nmap <leader>m :CtrlPMixed<cr>
 "nmap <leader>bs :CtrlPMRU<cr>
 let g:ctrlp_match_window = 'max:12'
+let g:ctrlp_extensions = ['tag']
 
 " Split size change
 nmap <leader>- :resize -5<cr>
@@ -285,7 +287,7 @@ let g:airline_theme='molokai'
 "let g:airline_theme='jellybeans'
 
 
-let g:jedi#completions_command = "<C-N>"
+"let g:jedi#completions_command = "<C-N>"
 
 "autocmd BufNewFile,BufRead *.qml so c:\vim\vim74\ftplugin\qml.vim
 autocmd BufNewFile,BufRead *.qml setf qml 
