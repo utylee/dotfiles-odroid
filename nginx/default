@@ -40,9 +40,9 @@
 map $sent_http_content_type $expires {
     default                    off;
     text/html                  epoch;
-    text/css                   max;
-    application/javascript     max;
-    ~image/                    max;
+    text/css                   30d;
+    application/javascript     30d;
+    ~image/                    30d;
 }
  
 server {
