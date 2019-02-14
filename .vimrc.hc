@@ -10,6 +10,30 @@ set backspace=indent,eol,start
 " 참고사이트 : https://www.johnhawthorn.com/2012/09/vi-escape-delays/
 set timeoutlen=1000 ttimeoutlen=10
 
+"기본 자동완성 기능
+"http://vim.wikia.com/wiki/Make_Vim_completion_popup_menu_work_just_like_in_an_IDE
+"참고
+"
+" 이걸 빼고 아래omni complete를 기본 ctrl n 으로 동작하게 바꿔버렸습니다.
+" 첫번째 항목 선택이 이상해서말이죠
+"
+set completeopt=longest,menuone,preview
+inoremap <expr> <CR> pumvisible() ? "\<C-y>" : "\<C-g>u\<CR>"
+
+"inoremap <expr> <C-n> pumvisible() ? '<C-n>' :
+
+inoremap <expr> <C-n> pumvisible() ? '<C-n>' :
+  \ '<C-n><C-r>=pumvisible() ? "\<lt>Down>" : ""<CR>'
+inoremap <expr> <M-,> pumvisible() ? '<C-n>' :
+  \ '<C-x><C-o><C-n><C-p><C-r>=pumvisible() ? "\<lt>Down>" : ""<CR>'
+
+" complete 완성후 :pclose 로 프리뷰윈도우 닫는 명령
+" If you prefer the Omni-Completion tip window to close when a selection is
+" made, these lines close it on movement in insert mode or when leaving
+" insert mode
+autocmd CursorMovedI * if pumvisible() == 0|pclose|endif
+autocmd InsertLeave * if pumvisible() == 0|pclose|endif
+
 " 버퍼를 저장하지 않아도 버퍼간 이동을 가능하게끔합니다
 set hidden
 set tags=tags;/
@@ -173,6 +197,7 @@ let g:user_emmet_install_global = 0
 autocmd FileType html,css EmmetInstall
 
 au BufRead,BufNewFile */etc/nginx/* set ft=nginx
+au BufRead,BufNewFile */nginx/* set ft=nginx
 
 set noundofile
 set number
@@ -231,6 +256,9 @@ map <F4> :cp<CR>
 "map <C-T> :tabnew<CR>:wincmd w<CR>
 
 " Setup some default ignores
+let g:ctrlp_buftag_types = {
+\ 'css' : '--css-types=vcitm',
+\ }
 let g:ctrlp_custom_ignore = {
   \ 'dir':  '\v[\/](\.(git|hg|svn)|\_site)$',
   \ 'file': '\v\.(exe|so|dll|class|png|jpg|jpeg|avi|mkv|mov|mp4|wma|xlsx|mp3|ini|doc|docx|un|bak)$',
@@ -250,11 +278,12 @@ nmap <leader>z :cd %:p:h<cr> :pwd<cr>
 
 " Use a leader instead of the actual named binding
 nmap <leader>f :CtrlPCurWD<cr>
-nmap <leader>t :CtrlPTag<cr>
+nmap <leader>d :CtrlPBufTagAll<cr>
+nmap <leader>a :CtrlPTag<cr>
 
 " Easy bindings for its various modes
 nmap <leader>b :CtrlPBuffer<cr>
-nmap <leader>r :CtrlPMRU<cr>
+nmap <leader>t :CtrlPMRU<cr>
 nmap <leader>m :CtrlPMixed<cr>
 "nmap <leader>bs :CtrlPMRU<cr>
 let g:ctrlp_match_window = 'max:12'
