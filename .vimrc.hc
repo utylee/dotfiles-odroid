@@ -3,6 +3,8 @@ set nocompatible
 "source $VIMRUNTIME/mswin.vim
 "behave mswin
 
+set rtp+=~/.fzf
+let g:fzf_history_dir = '~/.fzf/fzf-history'
 "set term=screen-256color
 set backspace=indent,eol,start
 
@@ -156,20 +158,53 @@ syntax on
 "let g:virtualenv_directory = '/home/utylee/00-Projects/venv-tyTrader'
 set laststatus=2
 let g:airline_powerline_fonts = 1
-let g:airline#extensions#virtualenv#enabled = 1
+let g:airline#extensions#virtualenv#enabled = 0
+let g:airline#extensions#tagbar#flags = 'f'
+
 "let g:airline_section_a = airline#sections#create(['mode', %{airline#extensions#branch#get_head()}''branch'])
 
-function! AirlineWrapper(ext)
-	let head = airline#extensions#branch#head()
-	return empty(head) ? '' : printf(' %s', airline#extensions#branch#get_head())
-endfunction
+"function! AirlineWrapper(ext)
+	"let head = airline#extensions#branch#head()
+	"return empty(head) ? '' : printf(' %s', airline#extensions#branch#get_head())
+"endfunction
 
+"let g:airline_section_c = airline#section#create(['%f'])
 
-let g:airline_section_a = airline#section#create(['mode', ' ', '%{airline#extensions#branch#get_head()}'])
+"이 두개가 실제로 사용되고 있었습니다. 일단 제거
+"let g:airline_section_a = airline#section#create(['mode', ' ', '%{airline#extensions#branch#get_head()}'])
+"let g:airline_section_b = airline#section#create(['%{virtualenv#statusline()}'])
+"let g:airline_section_b = airline#section#create(['%f'])
+"let g:airline_section_b = ''
+let g:airline#extensions#hunks#enabled = 0
+let g:airline#extensions#whitespace#enabled = 0
+let g:airline_section_c = '%f'
+" tagbar 업데이트가 너무 느려서 확인해보니 기본 4000이었습니다
+set updatetime=1000
+au VimEnter * let g:airline_section_x = airline#section#create(['tagbar']) | :AirlineRefresh
+"au VimEnter * let g:airline_section_x = airline#section#create_right(['tagbar']) | :AirlineRefresh
+"let g:airline_section_x = airline#section#create_right(['tagbar']) 
+"skip section을 하니 tagbar가 동작을 안했습니다
+"let g:airline_skip_empty_sections = 1
+"let g:airline_section_y=''
+"let g:airline_section_z=''
+let g:airline_section_warning=''
+let g:airline_section_error=''
+let g:airline_section_statistics=''
+let g:airline_mode_map = {
+  \ '__' : '-',
+  \ 'n'  : 'N',
+  \ 'i'  : 'I',
+  \ 'R'  : 'R',
+  \ 'v'  : 'V',
+  \ 'V'  : 'V-L',
+  \ 'c'  : 'C',
+  \ 's'  : 'S',
+\ 'S' : 'S-L',
+\ }
+
 "let g:airline_section_a = airline#section#create(['mode', '%{AirlineWrapper()}'])
 "let g:airline_section_b = airline#section#create([g:airline_symbols.branch, ' ', '%{fugitive#head()}', ' ', ' %{virtualenv#statusline()}'])
 "let g:airline_section_b = airline#section#create(['%{airline#extensions#branch#get_head()}', ' %{virtualenv#statusline()}'])
-let g:airline_section_b = airline#section#create(['%{virtualenv#statusline()}'])
 "let g:airline_section_b = airline#section#create(['branch'])
 "let g:airline_section_b = ['branch']
 "let g:virtualenv_stl_format = '[%n]'
@@ -277,9 +312,12 @@ nmap <leader>z :cd %:p:h<cr> :pwd<cr>
 "let g:ctrlp_working_path_mode = 'r'
 
 " Use a leader instead of the actual named binding
-nmap <leader>f :CtrlPCurWD<cr>
+"nmap <leader>f :CtrlPCurWD<cr>
+nmap <leader>f :Files<cr>
 nmap <leader>d :CtrlPBufTagAll<cr>
-nmap <leader>a :CtrlPTag<cr>
+"nmap <leader>d :Tags<cr>
+"nmap <leader>a :CtrlPTag<cr>
+nmap <leader>a :Ag<cr>
 
 " Easy bindings for its various modes
 nmap <leader>b :CtrlPBuffer<cr>
