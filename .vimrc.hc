@@ -3,8 +3,23 @@ set nocompatible
 "source $VIMRUNTIME/mswin.vim
 "behave mswin
 
+
+" ctrlp가 ag를 사용하게 합니다
+set grepprg=ag\ --nogroup\ --nocolor
+" Use ag in CtrlP for listing files. Lightning fast and respects .gitignore
+let g:ctrlp_user_command = 'ag %s -l --nocolor -g ""'
+" " ag is fast enough that CtrlP doesn't need to cache
+let g:ctrlp_use_caching = 0
+"if executable('ag')
+"endif
+
 set rtp+=~/.fzf
 let g:fzf_history_dir = '~/.fzf/fzf-history'
+command! -bang -nargs=* Ag call fzf#vim#ag(<q-args>, '--hidden --path-to-ignore ~/.ignore', <bang>0)
+""let g:fzf_ag_raw =1
+"command! -bang -nargs=* Ag call fzf#vim#ag(<q-args>, '--ignore "*json"', <bang>0)
+"command! -bang -nargs=+ -complete=dir Rag call fzf#vim#ag_raw(<q-args>, {'options': '--delimiter : --nth 4..'}, <bang>0)
+"command! -bang -nargs=+ -complete=dir Rag call fzf#vim#ag_raw(<q-args>, {}, <bang>0)
 "set term=screen-256color
 set backspace=indent,eol,start
 
@@ -36,7 +51,7 @@ inoremap <expr> <M-,> pumvisible() ? '<C-n>' :
 autocmd CursorMovedI * if pumvisible() == 0|pclose|endif
 autocmd InsertLeave * if pumvisible() == 0|pclose|endif
 
-" 버퍼를 저장하지 않아도 버퍼간 이동을 가능하게끔합니다
+" 변경된 버퍼를 저장하지 않고도 버퍼간 이동을 가능하게끔합니다
 set hidden
 set tags=tags;/
 
@@ -69,9 +84,6 @@ let &t_SI .= "\<Esc>[5 q"
   " Recent versions of xterm (282 or above) also support
   " 5 -> blinking vertical bar
   " 6 -> solid vertical bar
-  
- 
-  
 
 let &t_8f="\e[38;2;%ld;%ld;%ldm"
 let &t_8b="\e[48;2;%ld;%ld;%ldm"
@@ -266,22 +278,23 @@ set noshellslash
 "nmap <leader>e :!python3 '%:p'<CR>
 "nmap <leader>e :set shellcmdflag=-ic <CR> :!ts python '%'<CR> <CR> :set shellcmdflag=-c<CR>
 "nmap <leader>e :!ts python '%:p' 2>/dev/null<CR> <CR>
-nmap <leader>e :!ts python '%' 2>/dev/null<CR> <CR>
+"nmap <leader>e :!ts python '%' 2>/dev/null<CR> <CR>
 "현재 행을 실행하는 커맨드인데 공백제거가 안돼 아직 제대로 되지 않습니다
 nmap <leader>w :exec '!ts python -c \"'getline('.')'\"'<CR>
 nmap <leader>` :set fullscreen<CR>
 nmap <leader>q :bd!<CR>
+nmap <leader>Q :cclose<CR>
 nmap <leader>c :!ts C-c<CR> <CR>
 map <F7> :NERDTreeTabsToggle<CR>
 map <F2> :NERDTreeToggle<CR>
 nmap <leader>2 :NERDTreeToggle<CR>
-map <F1> :e $MYVIMRC<CR>
+"map <F1> :e $MYVIMRC<CR>
 nmap <leader>1 :e $MYVIMRC<CR>
 nmap <leader>5 :syntax sync fromstart<CR>
 map <A-3> :tabnext<CR>
 map <A-4> :tabprevious<CR>
-map <F3> :cn<CR>
-map <F4> :cp<CR>
+"map <F3> :cn<CR>
+"map <F4> :cp<CR>
 "ex) :ccl<CR>       "Close the search result windows
 
 "map <c-j> <c-w>j
@@ -315,9 +328,11 @@ nmap <leader>z :cd %:p:h<cr> :pwd<cr>
 "nmap <leader>f :CtrlPCurWD<cr>
 nmap <leader>f :Files<cr>
 nmap <leader>d :CtrlPBufTagAll<cr>
+"nmap <leader>a :CtrlPTag<cr>
+nmap <leader>a :Tags<cr>
 "nmap <leader>d :Tags<cr>
 "nmap <leader>a :CtrlPTag<cr>
-nmap <leader>a :Ag<cr>
+nmap <leader>v :Ag<cr>
 
 " Easy bindings for its various modes
 nmap <leader>b :CtrlPBuffer<cr>

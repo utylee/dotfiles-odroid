@@ -115,6 +115,7 @@ alias la='ls -Ah'
 alias l='ls -CF'
 alias scn='screen -h 10000'
 alias lsb='lsb_release -a'
+alias dt='tmux detach -a'
 alias un='uname -a'
 alias mount-MacBook='sudo mount -t cifs //192.168.0.103/Downloads /home/odroid/media/MacBook -o user=utylee,pass=sksmsqnwk11,uid=1001,gid=1001,dir_mode=0777,file_mode=0777,iocharset=utf8,nounix,sec=ntlmssp'
 alias mount-seoruPC='sudo mount -t cifs //192.168.0.101/down /home/odroid/media/seoruPC -o user=seoru,pass=sksmsqnwk11,uid=1001,gid=1001,dir_mode=0777,file_mode=0777,iocharset=utf8'
@@ -189,3 +190,12 @@ alias t1='source ~/.tmuxset-misc'
 alias t2='source ~/.tmuxset-flask'
 alias smi-sync='python ~/.virtualenvs/misc/src/smi-sync.py '
 #eval "$(pyenv virtualenv-init -)"
+
+[ -f ~/.fzf.bash ] && source ~/.fzf.bash
+alias ag='ag --path-to-ignore /home/odroid/.ignore'
+export FZF_DEFAULT_COMMAND='ag --hidden -g ""'
+#export FZF_DEFAULT_COMMAND='ag --hidden --ignore={"*css","*min.css","*min.js"} -g ""'
+#export FZF_DEFAULT_COMMAND='ag --hidden --path-to-ignore ~/.ignore -g ""'
+#export FZF_DEFAULT_COMMAND='ag -l --path-to-ignore ~/.ignore --nocolor --hidden -g ""'
+
+#export FZF_DEFAULT_COMMAND='ag --ignore={"*json","*.min.css","*.min.js"}'
