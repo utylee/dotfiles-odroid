@@ -5,17 +5,28 @@ set nocompatible
 
 
 " ctrlp가 ag를 사용하게 합니다
-set grepprg=ag\ --nogroup\ --nocolor
+"set grepprg=ag\ --nogroup\ --nocolor
+set grepprg=rg\ --color=never
 " Use ag in CtrlP for listing files. Lightning fast and respects .gitignore
-let g:ctrlp_user_command = 'ag %s -l --nocolor -g ""'
+"let g:ctrlp_user_command = 'ag %s -l --nocolor -g ""'
+let g:ctrlp_user_command = 'rg %s --files --color=never --glob ""'
 " " ag is fast enough that CtrlP doesn't need to cache
 let g:ctrlp_use_caching = 0
 "if executable('ag')
 "endif
 
+let g:simple_todo_map_normal_mode_keys = 0
+
 set rtp+=~/.fzf
 let g:fzf_history_dir = '~/.fzf/fzf-history'
-command! -bang -nargs=* Ag call fzf#vim#ag(<q-args>, '--hidden --path-to-ignore ~/.ignore', <bang>0)
+command! -bang -nargs=* Ag call fzf#vim#ag(<q-args>, '--hidden', <bang>0)
+"command! -bang -nargs=* Rg
+  "\ call fzf#vim#grep(
+  "\   'rg --column --line-number --no-heading --color=always --smart-case '.shellescape(<q-args>), 1,
+  "\   <bang>0 ? fzf#vim#with_preview('up:60%')
+  "\           : fzf#vim#with_preview('right:50%:hidden', '?'),
+  "\   <bang>0)
+"command! -bang -nargs=* Ag call fzf#vim#ag(<q-args>, '--hidden --path-to-ignore ~/.ignore', <bang>0)
 ""let g:fzf_ag_raw =1
 "command! -bang -nargs=* Ag call fzf#vim#ag(<q-args>, '--ignore "*json"', <bang>0)
 "command! -bang -nargs=+ -complete=dir Rag call fzf#vim#ag_raw(<q-args>, {'options': '--delimiter : --nth 4..'}, <bang>0)
@@ -59,6 +70,13 @@ set tags=tags;/
 "let $BASH_ENV = "~/.bashrc"
 let $BASH_ENV = "~/.bash_functions"
 
+"if exists('$TMUX')
+  "let &t_SI = "\<Esc>Ptmux;\<Esc>\<Esc>]50;CursorShape=1\x7\<Esc>\\"
+  "let &t_EI = "\<Esc>Ptmux;\<Esc>\<Esc>]50;CursorShape=0\x7\<Esc>\\"
+"else
+  "let &t_SI = "\<Esc>]50;CursorShape=1\x7"
+  "let &t_EI = "\<Esc>]50;CursorShape=0\x7"
+"endif
 "osx 터미널 상에서의 인서트모드 커서를 변경합니다.
 "let &t_SI = "\<Esc>]50;CursorShape=1\x7"
 "let &t_EI = "\<Esc>]50;CursorShape=0\x7"
@@ -189,7 +207,7 @@ let g:airline#extensions#tagbar#flags = 'f'
 "let g:airline_section_b = ''
 let g:airline#extensions#hunks#enabled = 0
 let g:airline#extensions#whitespace#enabled = 0
-let g:airline_section_c = '%f'
+let g:airline_section_c = '%t'
 " tagbar 업데이트가 너무 느려서 확인해보니 기본 4000이었습니다
 set updatetime=1000
 au VimEnter * let g:airline_section_x = airline#section#create(['tagbar']) | :AirlineRefresh
@@ -280,6 +298,7 @@ set noshellslash
 "nmap <leader>e :!ts python '%:p' 2>/dev/null<CR> <CR>
 "nmap <leader>e :!ts python '%' 2>/dev/null<CR> <CR>
 "현재 행을 실행하는 커맨드인데 공백제거가 안돼 아직 제대로 되지 않습니다
+nmap <leader>r :Rooter<CR>
 nmap <leader>w :exec '!ts python -c \"'getline('.')'\"'<CR>
 nmap <leader>` :set fullscreen<CR>
 nmap <leader>q :bd!<CR>
@@ -326,17 +345,25 @@ nmap <leader>z :cd %:p:h<cr> :pwd<cr>
 
 " Use a leader instead of the actual named binding
 "nmap <leader>f :CtrlPCurWD<cr>
+nmap <leader>v :Marks<cr>
 nmap <leader>f :Files<cr>
 nmap <leader>d :CtrlPBufTagAll<cr>
 "nmap <leader>a :CtrlPTag<cr>
-nmap <leader>a :Tags<cr>
+nmap <leader>s :Tags<cr>
+"nmap <leader>a :Ag<cr>
+nmap <silent> <Leader>g :Rg <C-R><C-W><CR>
+nmap <leader>a :Rg<cr>
+nmap <leader>x :Ag<cr>
 "nmap <leader>d :Tags<cr>
 "nmap <leader>a :CtrlPTag<cr>
-nmap <leader>v :Ag<cr>
+"nmap <leader>v :Ag<cr>
 
 " Easy bindings for its various modes
-nmap <leader>b :CtrlPBuffer<cr>
-nmap <leader>t :CtrlPMRU<cr>
+"nmap <leader>b :CtrlPBuffer<cr>
+nmap <leader>b :Buffers<cr>
+"nmap <leader>t :CtrlPMRU<cr>
+"파일열기를 fzf를 사용해서 이것도 맞춰줘야합니다
+nmap <leader>t :History<cr>		
 nmap <leader>m :CtrlPMixed<cr>
 "nmap <leader>bs :CtrlPMRU<cr>
 let g:ctrlp_match_window = 'max:12'

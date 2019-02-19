@@ -179,6 +179,7 @@ echo -ne   '\eP\e]12;#5F5FAF\a'  # Cursor       -> purple
 
 export PYENV_ROOT="$HOME/.pyenv"
 export PATH="$PYENV_ROOT/bin:$PATH"
+export PATH="$HOME/.cargo/bin:$PATH"
 eval "$(pyenv init -)"
 pyenv virtualenvwrapper_lazy
 
@@ -191,9 +192,15 @@ alias t2='source ~/.tmuxset-flask'
 alias smi-sync='python ~/.virtualenvs/misc/src/smi-sync.py '
 #eval "$(pyenv virtualenv-init -)"
 
+
+
 [ -f ~/.fzf.bash ] && source ~/.fzf.bash
-alias ag='ag --path-to-ignore /home/odroid/.ignore'
-export FZF_DEFAULT_COMMAND='ag --hidden -g ""'
+# glob 옵션은 ignore에 none을 줘서 ignore없이선행하게 합니다 문자열이 아닌 파일찾기이기 때문입니다
+#export FZF_DEFAULT_COMMAND='rg --files --hidden --follow --glob ""'
+export FZF_DEFAULT_COMMAND='rg --files --hidden --follow --no-ignore'
+#export FZF_DEFAULT_COMMAND='ag --hidden -g ""'
+#export FZF_DEFAULT_COMMAND='ag --hidden --path-to-ignore ~/.ignore -g ""'
+#alias ag='ag --path-to-ignore /home/odroid/.ignore'
 #export FZF_DEFAULT_COMMAND='ag --hidden --ignore={"*css","*min.css","*min.js"} -g ""'
 #export FZF_DEFAULT_COMMAND='ag --hidden --path-to-ignore ~/.ignore -g ""'
 #export FZF_DEFAULT_COMMAND='ag -l --path-to-ignore ~/.ignore --nocolor --hidden -g ""'
