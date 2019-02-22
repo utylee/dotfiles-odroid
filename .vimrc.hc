@@ -9,7 +9,7 @@ set nocompatible
 set grepprg=rg\ --color=never
 " Use ag in CtrlP for listing files. Lightning fast and respects .gitignore
 "let g:ctrlp_user_command = 'ag %s -l --nocolor -g ""'
-let g:ctrlp_user_command = 'rg %s --files --color=never --glob ""'
+let g:ctrlp_user_command = 'rg %s --files --color=never --no-ignore'
 " " ag is fast enough that CtrlP doesn't need to cache
 let g:ctrlp_use_caching = 0
 "if executable('ag')
@@ -38,29 +38,29 @@ set backspace=indent,eol,start
 " 참고사이트 : https://www.johnhawthorn.com/2012/09/vi-escape-delays/
 set timeoutlen=1000 ttimeoutlen=10
 
-"기본 자동완성 기능
-"http://vim.wikia.com/wiki/Make_Vim_completion_popup_menu_work_just_like_in_an_IDE
-"참고
+""기본 자동완성 기능
+""http://vim.wikia.com/wiki/Make_Vim_completion_popup_menu_work_just_like_in_an_IDE
+""참고
+""
+"" 이걸 빼고 아래omni complete를 기본 ctrl n 으로 동작하게 바꿔버렸습니다.
+"" 첫번째 항목 선택이 이상해서말이죠
+""
+"set completeopt=longest,menuone,preview
+"inoremap <expr> <CR> pumvisible() ? "\<C-y>" : "\<C-g>u\<CR>"
 "
-" 이걸 빼고 아래omni complete를 기본 ctrl n 으로 동작하게 바꿔버렸습니다.
-" 첫번째 항목 선택이 이상해서말이죠
+""inoremap <expr> <C-n> pumvisible() ? '<C-n>' :
 "
-set completeopt=longest,menuone,preview
-inoremap <expr> <CR> pumvisible() ? "\<C-y>" : "\<C-g>u\<CR>"
-
 "inoremap <expr> <C-n> pumvisible() ? '<C-n>' :
-
-inoremap <expr> <C-n> pumvisible() ? '<C-n>' :
-  \ '<C-n><C-r>=pumvisible() ? "\<lt>Down>" : ""<CR>'
-inoremap <expr> <M-,> pumvisible() ? '<C-n>' :
-  \ '<C-x><C-o><C-n><C-p><C-r>=pumvisible() ? "\<lt>Down>" : ""<CR>'
-
-" complete 완성후 :pclose 로 프리뷰윈도우 닫는 명령
-" If you prefer the Omni-Completion tip window to close when a selection is
-" made, these lines close it on movement in insert mode or when leaving
-" insert mode
-autocmd CursorMovedI * if pumvisible() == 0|pclose|endif
-autocmd InsertLeave * if pumvisible() == 0|pclose|endif
+  "\ '<C-n><C-r>=pumvisible() ? "\<lt>Down>" : ""<CR>'
+"inoremap <expr> <M-,> pumvisible() ? '<C-n>' :
+  "\ '<C-x><C-o><C-n><C-p><C-r>=pumvisible() ? "\<lt>Down>" : ""<CR>'
+""
+"" complete 완성후 :pclose 로 프리뷰윈도우 닫는 명령
+"" If you prefer the Omni-Completion tip window to close when a selection is
+"" made, these lines close it on movement in insert mode or when leaving
+"" insert mode
+"autocmd CursorMovedI * if pumvisible() == 0|pclose|endif
+"autocmd InsertLeave * if pumvisible() == 0|pclose|endif
 
 " 변경된 버퍼를 저장하지 않고도 버퍼간 이동을 가능하게끔합니다
 set hidden
@@ -185,6 +185,33 @@ execute pathogen#infect()
 filetype plugin indent on
 syntax on
 
+"if executable('pyls')
+    "" pip install python-language-server
+    "au User lsp_setup call lsp#register_server({
+        "\ 'name': 'pyls',
+        "\ 'cmd': {server_info->['pyls']},
+        "\ 'whitelist': ['python'],
+        "\ })
+"endif
+"let g:asyncomplete_smart_completion = 0
+"let g:asyncomplete_auto_popup = 1
+inoremap <expr> <Tab> pumvisible() ? "\<C-n>" : "\<Tab>"
+inoremap <expr> <S-Tab> pumvisible() ? "\<C-p>" : "\<S-Tab>"
+inoremap <expr> <cr> pumvisible() ? "\<C-y>" : "\<cr>"
+"imap <c-space> <Plug>(asyncomplete_force_refresh)
+
+" Use deoplete.
+let g:python3_host_prog='/home/odroid/.pyenv/shims/python3'
+let g:deoplete#enable_at_startup = 0
+""let g:deoplete#enable_at_startup = 1
+"let g:deoplete#enable_at_startup = 0
+autocmd InsertEnter * call deoplete#enable()
+if !exists('g:deoplete#omni#input_patterns')
+  let g:deoplete#omni#input_patterns = {}
+endif
+autocmd InsertLeave,CompleteDone * if pumvisible() == 0 | pclose | endif
+
+
 "let g:virtualenv_directory = '/home/utylee/00-Projects/venv-tyTrader'
 set laststatus=2
 let g:airline_powerline_fonts = 1
@@ -295,11 +322,13 @@ set noshellslash
 "nmap <leader>e :!python3 %<CR>
 "nmap <leader>e :!python3 '%:p'<CR>
 "nmap <leader>e :set shellcmdflag=-ic <CR> :!ts python '%'<CR> <CR> :set shellcmdflag=-c<CR>
-"nmap <leader>e :!ts python '%:p' 2>/dev/null<CR> <CR>
+nmap <leader>e :!ts python '%:p' 2>/dev/null<CR> <CR>
+nmap <leader>w :!ts cargo build --release<CR> <CR>
+"nmap <leader>w :!ts rustc '%:t' 2>/dev/null<CR> <CR>
 "nmap <leader>e :!ts python '%' 2>/dev/null<CR> <CR>
 "현재 행을 실행하는 커맨드인데 공백제거가 안돼 아직 제대로 되지 않습니다
 nmap <leader>r :Rooter<CR>
-nmap <leader>w :exec '!ts python -c \"'getline('.')'\"'<CR>
+"nmap <leader>w :exec '!ts python -c \"'getline('.')'\"'<CR>
 nmap <leader>` :set fullscreen<CR>
 nmap <leader>q :bd!<CR>
 nmap <leader>Q :cclose<CR>
