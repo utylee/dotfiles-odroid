@@ -200,14 +200,14 @@ set nocompatible
 
 "python에서 $2 $1 이런게 나와서 일단 아래 vim lsp를 사용하기로 변경
 "let g:LanguageClient_serverCommands = {
-	"\ 'python': ['~/.pyenv/shims/pyls'],
+	"\ 'rust': ['~/.cargo/bin/rustup', 'run', 'stable', 'rls'],
     "\ }
 
-	"\ 'rust': ['~/.cargo/bin/rustup', 'run', 'stable', 'rls'],
 	"\ 'css': ['css-languageserver', '--stdio'],
+	"\ 'python': ['~/.pyenv/shims/pyls'],
 " ternjs 를 사용하므로 제거
-"\ 'javascript': ['/usr/local/bin/javascript-typescript-stdio'],
 "\ 'javascript.jsx': ['tcp://127.0.0.1:2089'],
+"\ 'javascript': ['javascript-typescript-stdio'],
 
 nnoremap <F5> :call LanguageClient_contextMenu()<CR>
 " Or map each action separately
@@ -223,8 +223,8 @@ inoremap <expr> <S-Tab> pumvisible() ? "\<C-p>" : "\<S-Tab>"
 inoremap <expr> <cr> pumvisible() ? "\<C-y>" : "\<cr>"
 "imap <c-space> <Plug>(asyncomplete_force_refresh)
 "set completeopt+=preview
-autocmd CompleteDone * if pumvisible() == 0 | pclose | endif
-"autocmd InsertLeave,CompleteDone * if pumvisible() == 0 | pclose | endif
+"autocmd CompleteDone * if pumvisible() == 0 | pclose | endif
+autocmd InsertLeave,CompleteDone * if pumvisible() == 0 | pclose | endif
     " pip install python-language-server
 au User lsp_setup call lsp#register_server({
 	\ 'name': 'css-lc',
@@ -237,6 +237,13 @@ if executable('pyls')
         \ 'name': 'pyls',
 		\ 'cmd': {server_info->['pyls']},
         \ 'whitelist': ['python'],
+        \ })
+endif
+if executable('rls')
+    au User lsp_setup call lsp#register_server({
+        \ 'name': 'rls',
+        \ 'cmd': {server_info->['rustup', 'run', 'stable', 'rls']},
+        \ 'whitelist': ['rust'],
         \ })
 endif
 let g:lsp_signs_enabled = 1         " enable signs
