@@ -3,6 +3,7 @@ set nocompatible
 "source $VIMRUNTIME/mswin.vim
 "behave mswin
 
+set iskeyword+=-
 
 " ctrlp가 ag를 사용하게 합니다
 "set grepprg=ag\ --nogroup\ --nocolor
@@ -20,6 +21,13 @@ let g:simple_todo_map_normal_mode_keys = 0
 set rtp+=~/.fzf
 let g:fzf_history_dir = '~/.fzf/fzf-history'
 command! -bang -nargs=* Ag call fzf#vim#ag(<q-args>, '--hidden', <bang>0)
+
+function! s:find_git_root()
+  return system('git rev-parse --show-toplevel 2> /dev/null')[:-2]
+endfunction
+
+command! ProjectFiles execute 'Files' s:find_git_root()
+
 "command! -bang -nargs=* Rg
   "\ call fzf#vim#grep(
   "\   'rg --column --line-number --no-heading --color=always --smart-case '.shellescape(<q-args>), 1,
@@ -185,31 +193,67 @@ execute pathogen#infect()
 filetype plugin indent on
 syntax on
 
-"if executable('pyls')
-    "" pip install python-language-server
-    "au User lsp_setup call lsp#register_server({
-        "\ 'name': 'pyls',
-        "\ 'cmd': {server_info->['pyls']},
-        "\ 'whitelist': ['python'],
-        "\ })
-"endif
-"let g:asyncomplete_smart_completion = 0
+"for ncm2
+autocmd BufEnter * call ncm2#enable_for_buffer()
+set completeopt=noinsert,menuone,noselect
+set nocompatible
+
+"python에서 $2 $1 이런게 나와서 일단 아래 vim lsp를 사용하기로 변경
+"let g:LanguageClient_serverCommands = {
+	"\ 'python': ['~/.pyenv/shims/pyls'],
+    "\ }
+
+	"\ 'rust': ['~/.cargo/bin/rustup', 'run', 'stable', 'rls'],
+	"\ 'css': ['css-languageserver', '--stdio'],
+" ternjs 를 사용하므로 제거
+"\ 'javascript': ['/usr/local/bin/javascript-typescript-stdio'],
+"\ 'javascript.jsx': ['tcp://127.0.0.1:2089'],
+
+nnoremap <F5> :call LanguageClient_contextMenu()<CR>
+" Or map each action separately
+nnoremap <silent> K :call LanguageClient#textDocument_hover()<CR>
+nnoremap <silent> gd :call LanguageClient#textDocument_definition()<CR>
+nnoremap <silent> <F2> :call LanguageClient#textDocument_rename()<CR>
+
+
+"let g:asyncomplete_smart_completion = 1
 "let g:asyncomplete_auto_popup = 1
 inoremap <expr> <Tab> pumvisible() ? "\<C-n>" : "\<Tab>"
 inoremap <expr> <S-Tab> pumvisible() ? "\<C-p>" : "\<S-Tab>"
 inoremap <expr> <cr> pumvisible() ? "\<C-y>" : "\<cr>"
 "imap <c-space> <Plug>(asyncomplete_force_refresh)
+"set completeopt+=preview
+autocmd CompleteDone * if pumvisible() == 0 | pclose | endif
+"autocmd InsertLeave,CompleteDone * if pumvisible() == 0 | pclose | endif
+    " pip install python-language-server
+au User lsp_setup call lsp#register_server({
+	\ 'name': 'css-lc',
+	\ 'cmd': {server_info->[&shell, &shellcmdflag, 'css-languageserver --stdio']},
+	\ 'whitelist': ['css'],
+	\ })
+if executable('pyls')
+    " pip install python-language-server
+    au User lsp_setup call lsp#register_server({
+        \ 'name': 'pyls',
+		\ 'cmd': {server_info->['pyls']},
+        \ 'whitelist': ['python'],
+        \ })
+endif
+let g:lsp_signs_enabled = 1         " enable signs
+let g:lsp_diagnostics_echo_cursor = 1 " enable echo under cursor when in normal mode
+""\ 'cmd': {server_info->['pyls']},
 
 " Use deoplete.
-let g:python3_host_prog='/home/odroid/.pyenv/shims/python3'
-let g:deoplete#enable_at_startup = 0
+"let g:python3_host_prog='/home/odroid/.pyenv/shims/python3'
+"let g:deoplete#enable_at_startup = 0
+
 ""let g:deoplete#enable_at_startup = 1
 "let g:deoplete#enable_at_startup = 0
-autocmd InsertEnter * call deoplete#enable()
-if !exists('g:deoplete#omni#input_patterns')
-  let g:deoplete#omni#input_patterns = {}
-endif
-autocmd InsertLeave,CompleteDone * if pumvisible() == 0 | pclose | endif
+"autocmd InsertEnter * call deoplete#enable()
+"if !exists('g:deoplete#omni#input_patterns')
+  "let g:deoplete#omni#input_patterns = {}
+"endif
+"autocmd InsertLeave,CompleteDone * if pumvisible() == 0 | pclose | endif
 
 
 "let g:virtualenv_directory = '/home/utylee/00-Projects/venv-tyTrader'
@@ -285,8 +329,8 @@ let g:airline#extensions#tabline#fnamemod = ':t'
 
 " emmet-vim 을 html과 css에서만 사용하는 설정
 
-let g:user_emmet_install_global = 0
-autocmd FileType html,css EmmetInstall
+"let g:user_emmet_install_global = 0
+"autocmd FileType html,css EmmetInstall
 
 au BufRead,BufNewFile */etc/nginx/* set ft=nginx
 au BufRead,BufNewFile */nginx/* set ft=nginx
@@ -328,6 +372,7 @@ nmap <leader>w :!ts cargo build --release<CR> <CR>
 "nmap <leader>e :!ts python '%' 2>/dev/null<CR> <CR>
 "현재 행을 실행하는 커맨드인데 공백제거가 안돼 아직 제대로 되지 않습니다
 nmap <leader>r :Rooter<CR>
+let g:rooter_manual_only = 1
 "nmap <leader>w :exec '!ts python -c \"'getline('.')'\"'<CR>
 nmap <leader>` :set fullscreen<CR>
 nmap <leader>q :bd!<CR>
@@ -351,10 +396,11 @@ map <A-4> :tabprevious<CR>
 "map <c-l> <c-w>l
 "map <C-T> :tabnew<CR>:wincmd w<CR>
 
+"let g:ctrlp_buftag_types = {
+"\ 'css' : '--css-types=vcitm',
+"\ }
+
 " Setup some default ignores
-let g:ctrlp_buftag_types = {
-\ 'css' : '--css-types=vcitm',
-\ }
 let g:ctrlp_custom_ignore = {
   \ 'dir':  '\v[\/](\.(git|hg|svn)|\_site)$',
   \ 'file': '\v\.(exe|so|dll|class|png|jpg|jpeg|avi|mkv|mov|mp4|wma|xlsx|mp3|ini|doc|docx|un|bak)$',
@@ -375,25 +421,22 @@ nmap <leader>z :cd %:p:h<cr> :pwd<cr>
 " Use a leader instead of the actual named binding
 "nmap <leader>f :CtrlPCurWD<cr>
 nmap <leader>v :Marks<cr>
-nmap <leader>f :Files<cr>
-nmap <leader>d :CtrlPBufTagAll<cr>
-"nmap <leader>a :CtrlPTag<cr>
-nmap <leader>s :Tags<cr>
-"nmap <leader>a :Ag<cr>
-nmap <silent> <Leader>g :Rg <C-R><C-W><CR>
 nmap <leader>a :Rg<cr>
+nmap <leader>s :Tags<cr>
+nmap <leader>d :ProjectFiles<cr>
+nmap <leader>f :Files<cr>
+nmap <silent> <Leader>g :Rg <C-R><C-W><CR>
 nmap <leader>x :Ag<cr>
-"nmap <leader>d :Tags<cr>
-"nmap <leader>a :CtrlPTag<cr>
-"nmap <leader>v :Ag<cr>
-
-" Easy bindings for its various modes
-"nmap <leader>b :CtrlPBuffer<cr>
 nmap <leader>b :Buffers<cr>
-"nmap <leader>t :CtrlPMRU<cr>
-"파일열기를 fzf를 사용해서 이것도 맞춰줘야합니다
 nmap <leader>t :History<cr>		
 nmap <leader>m :CtrlPMixed<cr>
+"nmap <leader>d :CtrlPBufTagAll<cr>
+"nmap <leader>a :CtrlPTag<cr>
+"nmap <leader>b :CtrlPBuffer<cr>
+"nmap <leader>t :CtrlPMRU<cr>
+
+" Easy bindings for its various modes
+"파일열기를 fzf를 사용해서 이것도 맞춰줘야합니다
 "nmap <leader>bs :CtrlPMRU<cr>
 let g:ctrlp_match_window = 'max:12'
 let g:ctrlp_extensions = ['tag']
