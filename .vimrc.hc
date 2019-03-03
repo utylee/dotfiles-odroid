@@ -289,6 +289,7 @@ let g:airline_section_c = '%t'
 " tagbar 업데이트가 너무 느려서 확인해보니 기본 4000이었습니다
 set updatetime=1000
 au VimEnter * let g:airline_section_x = airline#section#create(['tagbar']) | :AirlineRefresh
+
 "au VimEnter * let g:airline_section_x = airline#section#create_right(['tagbar']) | :AirlineRefresh
 "let g:airline_section_x = airline#section#create_right(['tagbar']) 
 "skip section을 하니 tagbar가 동작을 안했습니다
@@ -429,10 +430,12 @@ nmap <leader>z :cd %:p:h<cr> :pwd<cr>
 "nmap <leader>f :CtrlPCurWD<cr>
 nmap <leader>v :Marks<cr>
 nmap <leader>a :Rg<cr>
+nmap <leader>l :BLines<cr>
 nmap <leader>s :Tags<cr>
-nmap <leader>d :ProjectFiles<cr>
+nmap <leader>d :BTags<cr>
+nmap <leader>g :ProjectFiles<cr>
 nmap <leader>f :Files<cr>
-nmap <silent> <Leader>g :Rg <C-R><C-W><CR>
+nmap <silent> <Leader>h :Rg <C-R><C-W><CR>
 nmap <leader>x :Ag<cr>
 nmap <leader>b :Buffers<cr>
 nmap <leader>t :History<cr>		
