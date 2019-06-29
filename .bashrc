@@ -181,3 +181,6 @@ alias t1='source ~/.tmuxset-misc'
 alias t2='source ~/.tmuxset-flask'
 alias smi-sync='python ~/.virtualenvs/misc/src/smi-sync.py '
 #eval "$(pyenv virtualenv-init -)"
+alias dt='tmux detach -a'
+
+[ -f ~/.fzf.bash ] && source ~/.fzf.bash
