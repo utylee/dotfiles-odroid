@@ -3,11 +3,14 @@ set nocompatible
 "source $VIMRUNTIME/mswin.vim
 "behave mswin
 
+set rtp+=~/.fzf
 "set term=screen-256color
 set backspace=indent,eol,start
 set hidden
 " esc 딜레이를 없애는 명령이랍니다
 set timeoutlen=1000 ttimeoutlen=10
+set grepprg=rg\ --color=never
+
 
 
 " bashrc 의 alias를 읽기 위한 설정입니다
@@ -232,10 +235,15 @@ let g:ctrlp_custom_ignore = {
 "let g:ctrlp_working_path_mode = 'r'
 
 " Use a leader instead of the actual named binding
-nmap <leader>f :CtrlPCurWD<cr>
+"nmap <leader>f :CtrlPCurWD<cr>
+nmap <leader>f :Files<cr>
+nmap <leader>b :Buffers<cr>
+"nmap <leader>a :Rg<cr>
+nmap <leader>a :Ag<cr>
+
 
 " Easy bindings for its various modes
-nmap <leader>b :CtrlPBuffer<cr>
+"nmap <leader>b :CtrlPBuffer<cr>
 nmap <leader>t :CtrlPMRU<cr>
 nmap <leader>m :CtrlPMixed<cr>
 "nmap <leader>bs :CtrlPMRU<cr>

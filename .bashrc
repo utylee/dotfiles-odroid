@@ -184,3 +184,7 @@ alias smi-sync='python ~/.virtualenvs/misc/src/smi-sync.py '
 alias dt='tmux detach -a'
 
 [ -f ~/.fzf.bash ] && source ~/.fzf.bash
+#export FZF_DEFAULT_COMMAND='rg --files --hidden --follow --no-ignore'
+export FZF_DEFAULT_COMMAND='ag -l --path-to-ignore ~/.ignore --nocolor --hidden -g ""'
+export FZF_CTRL_T_COMMAND='rg --files --hidden --follow --no-ignore'
+
