@@ -26,6 +26,8 @@ let $BASH_ENV = "~/.bash_functions"
 
 
 nmap <leader>z :cd %:p:h<cr> :pwd<cr>
+nmap <leader>r :Rooter<cr>
+let g:rooter_manual_only = 1
 nmap <leader>c :!ts C-c<CR> <CR> 
 
 
@@ -172,22 +174,39 @@ let g:jedi#auto_initialization = 0
 set pyxversion=3
 let g:python3_host_prog='/home/odroid/.pyenv/shims/python3'
 
+
+
 "for ncm2
 autocmd BufEnter * call ncm2#enable_for_buffer()
 set completeopt=noinsert,menuone,noselect
-set nocompatible
+"set nocompatible
 "let g:ncm2_pyclang#library_path = '/usr/lib/llvm-6.0/lib/libclang.so.1'
 ""
-inoremap <expr> <Tab> pumvisible() ? "\<C-n>" : "\<Tab>"
-inoremap <expr> <S-Tab> pumvisible() ? "\<C-p>" : "\<S-Tab>"
+"inoremap <expr> <Tab> pumvisible() ? "\<C-n>" : "\<Tab>"
+"inoremap <expr> <S-Tab> pumvisible() ? "\<C-p>" : "\<S-Tab>"
 inoremap <expr> <cr> pumvisible() ? "\<C-y>" : "\<cr>"
 "
 ""imap <c-space> <Plug>(asyncomplete_force_refresh)
 "set completeopt+=preview
 ""autocmd CompleteDone * if pumvisible() == 0 | pclose | endif
 
-autocmd InsertLeave,CompleteDone * if pumvisible() == 0 | pclose | endif
+"autocmd InsertLeave,CompleteDone * if pumvisible() == 0 | pclose | endif
 
+" suppress the annoying 'match x of y', 'The only match' and 'Pattern not
+" found' messages
+set shortmess+=c
+
+" CTRL-C doesn't trigger the InsertLeave autocmd . map to <ESC> instead.
+inoremap <c-c> <ESC>
+
+" When the <Enter> key is pressed while the popup menu is visible, it only
+" hides the menu. Use this mapping to close the menu and also start a new
+" line.
+"inoremap <expr> <CR> (pumvisible() ? "\<c-y>\<cr>" : "\<CR>")
+
+" Use <TAB> to select the popup menu:
+inoremap <expr> <Tab> pumvisible() ? "\<C-n>" : "\<Tab>"
+inoremap <expr> <S-Tab> pumvisible() ? "\<C-p>" : "\<S-Tab>"
 
 
 set noundofile
