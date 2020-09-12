@@ -170,6 +170,9 @@ let g:airline#extensions#tabline#fnamemod = ':t'
 
 let g:jedi#auto_initialization = 0 
 "let g:jedi#squelch_py_warning = 1
+
+let g:jedi#force_py_version=3
+"
 "
 set pyxversion=3
 let g:python3_host_prog='/home/odroid/.pyenv/shims/python3'
