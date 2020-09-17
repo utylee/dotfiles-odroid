@@ -11,7 +11,8 @@ set hidden
 set timeoutlen=1000 ttimeoutlen=10
 set grepprg=rg\ --color=never
 
-
+" leader>s 가 먹히지 않아 찾아보니 얘가 기본 단축기로 먹고 있었습니다
+let g:simple_todo_map_normal_mode_keys = 0
 
 " bashrc 의 alias를 읽기 위한 설정입니다
 "let $BASH_ENV = "~/.bashrc"
@@ -290,8 +291,12 @@ nmap <leader>x :Rg<cr>
 nmap <leader>t :History<cr>
 nmap <leader>l :BLines<cr>
 nmap <leader>s :Tags<cr>
+nmap <silent> <Leader>g :BTags <C-R><C-W><CR>
+nmap <silent> <Leader>h :Tags <C-R><C-W><CR>
+nmap <silent> <Leader>j :Ag <C-R><C-W><CR>
+
 nmap <leader>d :BTags<cr>
-nmap <leader>g :ProjectFiles<cr>
+"nmap <leader>g :ProjectFiles<cr>
 
 
 

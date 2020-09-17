@@ -78,6 +78,7 @@ set CLICOLOR=1
 parse_git_branch() {
    git branch 2> /dev/null | sed -e '/^[^*]/d' -e 's/* \(.*\)/(\1)/'
 }
+
 #-----
 if [ "$color_prompt" = yes ]; then
     #PS1='${debian_chroot:+($debian_chroot)}\[\033[01;32m\]\u@\h\[\033[00m\]:\[\033[01;34m\]\w\[\033[00m\]\$ '
@@ -165,11 +166,21 @@ vi1() {
 	tmux select-window -t vMISC
 	tmux select-pane -t vMISC.0
 }
+smitosrt() {
+	#~/.virtualenvs/misc/bin/python ~/temp/smi2srt/smi2srt .
+	~/.virtualenvs/misc/bin/python ~/.virtualenvs/misc/src/smi2srt.py .
+}
+smitossa() {
+	~/.virtualenvs/misc/bin/python ~/.virtualenvs/misc/src/smi2ssa.py .
+}
+srttossa() {
+	pysubs2 --to ssa *srt
+}
 
 echo -ne   '\eP\e]12;#2AA198\a'  # Cursor       -> red
 
 export PYENV_ROOT="$HOME/.pyenv"
-export PATH="$PYENV_ROOT/bin:$PATH"
+export PATH="$HOME/.cargo/bin:$PYENV_ROOT/bin:$PATH"
 eval "$(pyenv init -)"
 pyenv virtualenvwrapper_lazy
 
@@ -181,11 +192,12 @@ alias t1='source ~/.tmuxset-misc'
 alias t2='source ~/.tmuxset-flask'
 alias smi-sync='python ~/.virtualenvs/misc/src/smi-sync.py '
 alias srt-sync='python ~/.virtualenvs/misc/src/srt-sync.py '
+alias subs='/home/odroid/.virtualenvs/misc/bin/python ~/.virtualenvs/misc/src/sminame.py '
 #eval "$(pyenv virtualenv-init -)"
 alias dt='tmux detach -a'
 
 [ -f ~/.fzf.bash ] && source ~/.fzf.bash
-#export FZF_DEFAULT_COMMAND='rg --files --hidden --follow --no-ignore'
-export FZF_DEFAULT_COMMAND='ag -l --path-to-ignore ~/.ignore --nocolor --hidden -g ""'
-export FZF_CTRL_T_COMMAND='rg --files --hidden --follow --no-ignore'
+export FZF_DEFAULT_COMMAND='rg --files --hidden --follow --no-ignore'
+export FZF_CTRL_T_COMMAND='rg --files --hidden --follow --no-ignore' 
+#export FZF_DEFAULT_COMMAND='ag -l --path-to-ignore ~/.ignore --nocolor --hidden -g ""'
 
