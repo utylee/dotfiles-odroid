@@ -289,11 +289,12 @@ nmap <leader>m :CtrlPMixed<cr>
 nmap <leader>a :Ag<cr>
 nmap <leader>x :Rg<cr>
 nmap <leader>t :History<cr>
-nmap <leader>l :BLines<cr>
+"nmap <leader>l :BLines<cr>
 nmap <leader>s :Tags<cr>
 nmap <silent> <Leader>g :BTags <C-R><C-W><CR>
 nmap <silent> <Leader>h :Tags <C-R><C-W><CR>
 nmap <silent> <Leader>j :Ag <C-R><C-W><CR>
+nmap <silent> <Leader>l :BLines <C-R><C-W><CR>
 
 nmap <leader>d :BTags<cr>
 "nmap <leader>g :ProjectFiles<cr>
