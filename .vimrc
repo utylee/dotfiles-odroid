@@ -27,6 +27,7 @@ let $BASH_ENV = "~/.bash_functions"
 
 
 nmap <leader>z :cd %:p:h<cr> :pwd<cr>
+nmap <leader>Z :ProsessionDelete<cr>
 nmap <leader>r :Rooter<cr>
 let g:rooter_manual_only = 1
 nmap <leader>c :!ts C-c<CR> <CR> 
@@ -139,6 +140,20 @@ syntax on
 set laststatus=2
 let g:airline_powerline_fonts = 1
 let g:airline#extensions#virtualenv#enabled = 1
+let g:airline#extensions#tagbar#flags = 'f'
+
+let g:airline_mode_map = {
+			\ '__' : '-',
+			\ 'n'  : 'N',
+			\ 'i'  : 'I',
+			\ 'R'  : 'R',
+			\ 'v'  : 'V',
+			\ 'V'  : 'V-L',
+			\ 'c'  : 'C',
+			\ 's'  : 'S',
+			\ 'S' : 'S-L',
+			\ }
+
 "let g:airline_section_a = airline#sections#create(['mode', %{airline#extensions#branch#get_head()}''branch'])
 
 function! AirlineWrapper(ext)
