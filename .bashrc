@@ -120,6 +120,8 @@ alias mount-seoruPC='sudo mount -t cifs //192.168.0.101/down /home/odroid/media/
 
 alias mm='mount-MacBook'
 alias ms='mount-seoruPC' 
+alias 4001='cd ~/media/4001/00-MediaWorld-4001'
+alias 4002='cd ~/media/4002/00-MediaWorld-4002'
 
 # Add an "alert" alias for long running commands.  Use like so:
 #   sleep 10; alert
@@ -170,17 +172,29 @@ smitosrt() {
 	#~/.virtualenvs/misc/bin/python ~/temp/smi2srt/smi2srt .
 	~/.virtualenvs/misc/bin/python ~/.virtualenvs/misc/src/smi2srt.py .
 }
+srttosmi() {
+	#~/.virtualenvs/misc/bin/python ~/temp/smi2srt/smi2srt .
+	~/.virtualenvs/misc/bin/python ~/.virtualenvs/misc/src/srt2smi.py .
+}
 smitossa() {
 	~/.virtualenvs/misc/bin/python ~/.virtualenvs/misc/src/smi2ssa.py .
 }
 srttossa() {
-	pysubs2 --to ssa *srt
+	~/.virtualenvs/misc/bin/python ~/.virtualenvs/misc/src/srt2ssa.py .
+	#pysubs2 --to ssa *srt
 }
 
 echo -ne   '\eP\e]12;#2AA198\a'  # Cursor       -> red
+echo -ne "\x1b[1 q"		#blinking Cursor
+
 
 export PYENV_ROOT="$HOME/.pyenv"
 export PATH="$HOME/.cargo/bin:$PYENV_ROOT/bin:$PATH"
+
+#export CLANGHOME=/usr/local/clang+llvm-7.0.1-armv7a-linux-gnueabihf
+#export PATH="$CLANGHOME/bin:$HOME/.cargo/bin:$PYENV_ROOT/bin:$PATH"
+#export LD_LIBRARY_PATH="$CLANGHOME/lib:$LD_LIBRARY_PATH"
+#
 eval "$(pyenv init -)"
 pyenv virtualenvwrapper_lazy
 
@@ -192,12 +206,17 @@ alias t1='source ~/.tmuxset-misc'
 alias t2='source ~/.tmuxset-flask'
 alias smi-sync='python ~/.virtualenvs/misc/src/smi-sync.py '
 alias srt-sync='python ~/.virtualenvs/misc/src/srt-sync.py '
-alias subs='/home/odroid/.virtualenvs/misc/bin/python ~/.virtualenvs/misc/src/sminame.py '
+alias subs='/home/odroid/.virtualenvs/misc/bin/python ~/.virtualenvs/misc/src/subsmatching.py'
 #eval "$(pyenv virtualenv-init -)"
 alias dt='tmux detach -a'
 
 [ -f ~/.fzf.bash ] && source ~/.fzf.bash
-export FZF_DEFAULT_COMMAND='rg --files --hidden --follow --no-ignore'
-export FZF_CTRL_T_COMMAND='rg --files --hidden --follow --no-ignore' 
-#export FZF_DEFAULT_COMMAND='ag -l --path-to-ignore ~/.ignore --nocolor --hidden -g ""'
+#export FZF_DEFAULT_COMMAND='rg --files --hidden --follow --no-ignore'
+#export FZF_CTRL_T_COMMAND='rg --files --hidden --follow --no-ignore' 
+export FZF_DEFAULT_COMMAND='ag -l --path-to-ignore ~/.ignore --nocolor --hidden -g ""'
+export FZF_CTRL_T_COMMAND='ag -l --path-to-ignore ~/.ignore --nocolor --hidden -g ""'
 
+
+export NVM_DIR="$HOME/.nvm"
+[ -s "$NVM_DIR/nvm.sh" ] && \. "$NVM_DIR/nvm.sh"  # This loads nvm
+[ -s "$NVM_DIR/bash_completion" ] && \. "$NVM_DIR/bash_completion"  # This loads nvm bash_completion
