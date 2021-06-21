@@ -209,6 +209,7 @@ alias srt-sync='python ~/.virtualenvs/misc/src/srt-sync.py '
 alias subs='/home/odroid/.virtualenvs/misc/bin/python ~/.virtualenvs/misc/src/subsmatching.py'
 #eval "$(pyenv virtualenv-init -)"
 alias dt='tmux detach -a'
+alias td='tmux detach -a'
 
 [ -f ~/.fzf.bash ] && source ~/.fzf.bash
 #export FZF_DEFAULT_COMMAND='rg --files --hidden --follow --no-ignore'
