@@ -4,6 +4,10 @@ set nocompatible
 "behave mswin
 
 set rtp+=~/.fzf
+let g:fzf_history_dir = '~/.fzf/fzf-history'
+let g:fzf_layout = { 'down': '40%' }
+let g:fzf_preview_window = []
+
 "set term=screen-256color
 set backspace=indent,eol,start
 set hidden
@@ -193,12 +197,15 @@ let g:jedi#force_py_version=3
 set pyxversion=3
 let g:python3_host_prog='/home/odroid/.pyenv/shims/python3'
 
+let g:completor_complete_options = 'menuone,noselect'
 
+"autocmd User asyncomplete_setup call asyncomplete#register_source(
+    "\ asyncomplete#sources#clang#get_source_options())
 
 "for ncm2
-autocmd BufEnter * call ncm2#enable_for_buffer()
-set completeopt=noinsert,menuone,noselect
-"set nocompatible
+"autocmd BufEnter * call ncm2#enable_for_buffer()
+"set completeopt=noinsert,menuone,noselect
+""set nocompatible
 "let g:ncm2_pyclang#library_path = '/usr/lib/llvm-6.0/lib/libclang.so.1'
 ""
 "inoremap <expr> <Tab> pumvisible() ? "\<C-n>" : "\<Tab>"
@@ -264,7 +271,13 @@ nmap <leader>e :!ts python '%' 2>/dev/null<CR> <CR>
 "현재 행을 실행하는 커맨드인데 공백제거가 안돼 아직 제대로 되지 않습니다
 nmap <leader>w :exec '!ts python -c \"'getline('.')'\"'<CR>
 nmap <leader>` :set fullscreen<CR>
+
 nmap <leader>q :bd!<CR>
+nmap ,q :%bd!<CR>
+nmap ,c :cclose<CR>
+" ;의 반대방향 역할을 하는 ,키를 더블클릭으로 사용하기 위함입니다
+nmap ,, ,
+
 map <F7> :NERDTreeTabsToggle<CR>
 map <F2> :NERDTreeToggle<CR>
 nmap <leader>2 :NERDTreeToggle<CR>
@@ -297,23 +310,24 @@ map <F4> :cp<CR>
 
 " Use a leader instead of the actual named binding
 "nmap <leader>f :CtrlPCurWD<cr>
-nmap <leader>f :Files<cr>
 nmap <leader>b :Buffers<cr>
-nmap <leader>m :CtrlPMixed<cr>
+nmap <leader>t :History<cr>
+"nmap <leader>m :CtrlPMixed<cr>
+nmap <leader>m :Marks<cr>
 "nmap <leader>a :Rg<cr>
 nmap <leader>a :Ag<cr>
-nmap <leader>x :Rg<cr>
-nmap <leader>t :History<cr>
-"nmap <leader>l :BLines<cr>
-nmap <leader>; :Lines<cr>
 nmap <leader>s :Tags<cr>
+nmap <leader>d :BTags<cr>
+nmap <leader>f :Files<cr>
+nmap <leader>x :Rg<cr>
+nmap <leader>k :BLines<cr>
+nmap <leader>l :Lines<cr>
 nmap <silent> <Leader>g :BTags <C-R><C-W><CR>
 nmap <silent> <Leader>h :Tags <C-R><C-W><CR>
 nmap <silent> <Leader>j :Ag <C-R><C-W><CR>
-nmap <silent> <Leader>l :Lines <C-R><C-W><CR>
+nmap <silent> <Leader>; :Lines <C-R><C-W><CR>
 "nmap <silent> <Leader>l :BLines <C-R><C-W><CR>
 
-nmap <leader>d :BTags<cr>
 "nmap <leader>g :ProjectFiles<cr>
 
 
@@ -321,7 +335,7 @@ nmap <leader>d :BTags<cr>
 " Easy bindings for its various modes
 "nmap <leader>b :CtrlPBuffer<cr>
 "nmap <leader>t :CtrlPMRU<cr>
-nmap <leader>m :CtrlPMixed<cr>
+"nmap <leader>m :CtrlPMixed<cr>
 "nmap <leader>bs :CtrlPMRU<cr>
 let g:ctrlp_match_window = 'max:12'
 
